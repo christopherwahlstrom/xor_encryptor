@@ -11,7 +11,7 @@ def parse_key(key_str: str) -> bytes:
      Hanterar tre format 
       1) Hexadecimal byte, som tex. 0x41
       2) Hexadecimal sträng,som tex. 41:42:43 eller 414243
-      3) Vanlig textsträng, som tex. '"""
+      3) Vanlig textsträng, som tex. 'nyckel' """
 
      s = key_str.strip()
 
