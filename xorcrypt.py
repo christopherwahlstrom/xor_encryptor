@@ -50,19 +50,19 @@ def xor_bytes(data: bytes, key: bytes) -> bytes:
      klen = len(key) 
 
      for i, b in enumerate(data):
-          # XOR-operation och vi använder modulo för att repetera nyckeln.
+          # XOR-operationen (^) krypterar väärdet. Modulo (%) gör att nyckeln börjar om från start om datan är längre än nyckeln, för att säkerställa att nyckeln fungerar oavsett datans längd.
           out[i] = b ^ key[i % klen]
      return bytes(out)
      
 def format_python(data: bytes) -> str:
      
-     # Här formateras bytes till en Python-variabel.
+     # Här formateras bytes (rå data , sekvens av tal mellan 0-255) till en Python-variabel.
 
      return 'buf = b"' + "".join(f"\\x{b:02x}" for b in data) + '"\n'
      
 def format_c(data:bytes, name: str = "buf", per_line: int = 16) -> str:
 
-     # Här formateras bytes till en C-array för att användas i loaders.
+     # Här formateras bytes (rå data , sekvens av tal mellan 0-255) till en C-array för att användas i eventuella loaders.
 
      lines = []
      for i in range(0, len(data), per_line):
@@ -81,12 +81,12 @@ def build_parser() -> argparse.ArgumentParser:
 
      p = argparse.ArgumentParser(description="XOR-transform a file and output raw/python/c views.")
 
-     # Här definerar jag obligatoriska argument enligt uppgiftskraven.
+     # Här definerar jag obligatoriska argument/alternativ enligt uppgiftskraven.
      p.add_argument("--in", dest="in_path", required=True, help="Input file path (read as bytes).")
      p.add_argument("--out", dest="out_path", required=True, help="Output file path (raw bytes).")
      p.add_argument("--key", required=True, help="Key: 0x41 | 41:42:43 | 'textkey'")
 
-     # Här definerar jag ett valfritt argument för utdataformat.
+     # Här definerar jag ett valfritt argument/alternativ för utdataformat.
      p.add_argument("--format", choices=["raw", "python", "c"],default="raw", help="Output format: raw bytes, python bytes literal, or C array."
 )
 
@@ -94,14 +94,17 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str]) -> int:
+     # Här hämtar vi användarens val från terminalen.
      args = build_parser().parse_args(argv)
 
+     # Här förberederar vi filvägarna.
      in_path = Path(args.in_path)
      out_path = Path(args.out_path)
 
      # Här läser vi in filen binärt
      data = in_path.read_bytes() 
 
+     # Försök att gör så här men om det kraschar gör så här istället genom en try / except.
      try: 
           key = parse_key(args.key)
      except ValueError as e:
