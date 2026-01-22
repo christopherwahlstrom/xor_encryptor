@@ -104,7 +104,7 @@ def main(argv: list[str]) -> int:
      # Här läser jag in filen binärt
      data = in_path.read_bytes() 
 
-     # Försök att gör så här men om det kraschar gör så här istället genom en try / except.
+     
      try: 
           key = parse_key(args.key)
      except ValueError as e:
