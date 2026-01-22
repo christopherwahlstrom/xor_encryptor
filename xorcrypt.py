@@ -45,12 +45,12 @@ def xor_bytes(data: bytes, key: bytes) -> bytes:
      if not key:
           raise ValueError("Key must not be empty")
      
-     # Här använder bi bytearray för kunna ändra värdena. 
+     # Här använder vi bytearray för kunna ändra värdena. 
      out = bytearray(len(data))
      klen = len(key) 
 
      for i, b in enumerate(data):
-          # XOR-operation och Vi använder modulo för att repetera nyckeln.
+          # XOR-operation och vi använder modulo för att repetera nyckeln.
           out[i] = b ^ key[i % klen]
      return bytes(out)
      
