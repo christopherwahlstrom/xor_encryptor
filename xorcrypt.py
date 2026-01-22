@@ -15,14 +15,14 @@ def parse_key(key_str: str) -> bytes:
 
      s = key_str.strip()
 
-     # 1. Här hanterar vi hexadecimal byte.
+     # 1. Här hanterar jag hexadecimal byte.
      if s.lower().startswith("0x"):
           value = int(s, 16)
           if not (0 <= value <= 255):
                raise ValueError("Hex key must be between 0x00 and 0xFF")
           return bytes([value])
      
-     # 2. Här hanterar vi hexadecimal sträng.
+     # 2. Här hanterar jag hexadecimal sträng.
      hex_candidate = s.replace(":", "").replace(" ", "")
      if (
           len(hex_candidate) > 0
@@ -33,7 +33,7 @@ def parse_key(key_str: str) -> bytes:
 
           return bytes.fromhex(hex_candidate)
      
-     # 3. Här hanterar vi vanlig textsträng.
+     # 3. Här hanterar jag vanlig textsträng.
      return s.encode("utf-8")
      
 
@@ -45,7 +45,7 @@ def xor_bytes(data: bytes, key: bytes) -> bytes:
      if not key:
           raise ValueError("Key must not be empty")
      
-     # Här använder vi bytearray för kunna ändra värdena. 
+     # Här använder jag bytearray för kunna ändra värdena. 
      out = bytearray(len(data))
      klen = len(key) 
 
@@ -94,14 +94,14 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str]) -> int:
-     # Här hämtar vi användarens val från terminalen.
+     # Här hämtar jag användarens val från terminalen.
      args = build_parser().parse_args(argv)
 
-     # Här förberederar vi filvägarna.
+     # Här förberederar jag filvägarna.
      in_path = Path(args.in_path)
      out_path = Path(args.out_path)
 
-     # Här läser vi in filen binärt
+     # Här läser jag in filen binärt
      data = in_path.read_bytes() 
 
      # Försök att gör så här men om det kraschar gör så här istället genom en try / except.
@@ -111,10 +111,10 @@ def main(argv: list[str]) -> int:
           print(f"[!] Key error: {e}")
           return 1
 
-     # Här utför vi kryptering/dekryptering
+     # Här utför jag kryptering/dekryptering
      transformed = xor_bytes(data, key) 
 
-     # Här hanterar vi utdatans format och skriver till fil.
+     # Här hanterar jag utdatans format och skriver till fil.
      fmt = args.format
 
      if fmt == "raw":
